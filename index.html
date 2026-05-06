@@ -45,8 +45,7 @@
     
     <button onclick="sendTid()">Send tid</button>
     <button onclick="add15Min()">+15 min</button>
-    <button onclick="add30Min()">+30 min</button>
-    <button onclick="subtract30Min()">-30 min</button>
+    <button onclick="subtract15Min()">-15 min</button>
 </div>
 
 <script>
@@ -119,33 +118,13 @@
         client.send(message);
     }
 
-    function add30Min() {
+    function subtract15Min() {
         let timeInput = document.getElementById("timeInput").value;
         let parts = timeInput.split(":");
         let h = parseInt(parts[0]);
         let m = parseInt(parts[1]);
 
-        m += 30;
-        if (m >= 60) {
-            h = (h + 1) % 24;
-            m -= 60;
-        }
-
-        let nyTid = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
-        document.getElementById("timeInput").value = nyTid;
-        
-        let message = new Paho.MQTT.Message(nyTid);
-        message.destinationName = "AU_AMS_PSKIVE/pskive/set_time";
-        client.send(message);
-    }
-
-    function subtract30Min() {
-        let timeInput = document.getElementById("timeInput").value;
-        let parts = timeInput.split(":");
-        let h = parseInt(parts[0]);
-        let m = parseInt(parts[1]);
-
-        m -= 30;
+        m -= 15;
         if (m < 0) {
             h = (h - 1 + 24) % 24;
             m += 60;
