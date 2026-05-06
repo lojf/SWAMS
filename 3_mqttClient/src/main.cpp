@@ -76,9 +76,4 @@ void loop() {
 
     mqtt.loop();
 
-    // Jeres eksisterende status-besked hver 5. sekund
-    if (millis() - lastMillis > 5000) {
-        lastMillis = millis();
-        mqtt.publish(PSKIVE_STATUS_TOPIC, "ESP32 kører stadig");
-    }
 }
