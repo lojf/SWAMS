@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>AMS P-Skive Kontrol</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/paho-mqtt.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #f4f4f9;
+        }
+        .box {
+            background-color: white;
+            padding: 30px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover { background-color: #0056b3; }
+        #status { font-weight: bold; color: red; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>AMS P-Skive Kontrol</h2>
+    <p>Forbindelsesstatus: <span id="status">Afbrudt</span></p>
+    
+    <label for="timeInput">Indstil tidspunkt:</label><br>
+    <input type="time" id="timeInput" value="14:00"><br><br>
+    
+    <button onclick="sendTid()">Send tid</button>
+    <button onclick="add30Min()">+30 min</button>
+</div>
+
+<script>
+    // HiveMQ Cloud Websocket Configuration
+    const mqttHost = "e485e36576474f2980cbef4972a4cd36.s1.eu.hivemq.cloud";
+    const mqttPort = 8884; // Port for WSS (WebSockets over SSL)
+    const clientId = "web_client_" + Math.random().toString(36).substring(7);
+
+    var client = new Paho.MQTT.Client(mqttHost, mqttPort, clientId);
+
+    client.onConnectionLost = onConnectionLost;
+    client.onMessageArrived = onMessageArrived;
+
+    var options = {
+        useSSL: true,
+        userName: "pskive_bruger",
+        password: "Lommetyv67",
+        onSuccess: onConnect,
+        onFailure: onFailure
+    };
+
+    client.connect(options);
+
+    function onConnect() {
+        document.getElementById("status").innerText = "Forbundet";
+        document.getElementById("status").style.color = "green";
+        console.log("Forbundet til HiveMQ");
+    }
+
+    function onFailure(message) {
+        document.getElementById("status").innerText = "Fejl";
+        console.error("Forbindelse fejlede: " + message.errorMessage);
+    }
+
+    function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+            document.getElementById("status").innerText = "Afbrudt";
+            document.getElementById("status").style.color = "red";
+            console.log("Forbindelse tabt: " + responseObject.errorMessage);
+        }
+    }
+
+    function sendTid() {
+        let tid = document.getElementById("timeInput").value;
+        let message = new Paho.MQTT.Message(tid);
+        message.destinationName = "AU_AMS_PSKIVE/pskive/set_time";
+        client.send(message);
+        alert("Tid sendt til P-skiven: " + tid);
+    }
+
+    function add30Min() {
+        let timeInput = document.getElementById("timeInput").value;
+        let parts = timeInput.split(":");
+        let h = parseInt(parts[0]);
+        let m = parseInt(parts[1]);
+
+        m += 30;
+        if (m >= 60) {
+            h = (h + 1) % 24;
+            m -= 60;
+        }
+
+        let nyTid = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
+        document.getElementById("timeInput").value = nyTid;
+        
+        // Send automatisk efter opdatering
+        let message = new Paho.MQTT.Message(nyTid);
+        message.destinationName = "AU_AMS_PSKIVE/pskive/set_time";
+        client.send(message);
+    }
+
+    function onMessageArrived(message) {
+        console.log("Modtaget: " + message.payloadString);
+    }
+</script>
+
+</body>
+</html>
