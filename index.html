@@ -31,19 +31,28 @@
             cursor: pointer;
         }
         button:hover { background-color: #0056b3; }
+        .auto-btn { background-color: #28a745; } /* Grøn knap til Auto */
+        .auto-btn:hover { background-color: #218838; }
         #status { font-weight: bold; color: red; }
+        #liveClock { font-size: 20px; font-weight: bold; color: #333; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
 <div class="box">
     <h2>AMS P-Skive Kontrol</h2>
+    
+    <!-- Live ur (Browserens RTC) -->
+    <div id="liveClock">Henter tid...</div>
+    
     <p>Forbindelsesstatus: <span id="status">Afbrudt</span></p>
     
-    <label for="timeInput">Indstil tidspunkt:</label><br>
+    <label for="timeInput">Indstil tidspunkt manuelt:</label><br>
     <input type="time" id="timeInput" value="14:00"><br><br>
     
-    <button onclick="sendTid()">Send tid</button>
+    <button onclick="sendTid()">Send manuel tid</button>
+    <button class="auto-btn" onclick="parkerNu()">Parker nu (Auto +15m)</button>
+    <br><br>
     <button onclick="add15Min()">+15 min</button>
     <button onclick="subtract15Min()">-15 min</button>
 </div>
@@ -51,7 +60,7 @@
 <script>
     // HiveMQ Cloud Websocket Configuration
     const mqttHost = "e485e36576474f2980cbef4972a4cd36.s1.eu.hivemq.cloud";
-    const mqttPort = 8884; // Port for WSS (WebSockets over SSL)
+    const mqttPort = 8884; 
     const mqttPath = "/mqtt";
     const clientId = "web_client_" + Math.random().toString(36).substring(7);
 
@@ -68,25 +77,62 @@
         onFailure: onFailure
     };
 
-    // Forbind til brokeren
     client.connect(options);
+
+    // --- RTC & LIVE UR FUNKTIONER ---
+    
+    // Opdaterer uret på skærmen hvert sekund
+    setInterval(function() {
+        let nu = new Date();
+        let h = nu.getHours();
+        let m = nu.getMinutes();
+        let s = nu.getSeconds();
+        let tidString = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+        document.getElementById("liveClock").innerText = "Aktuel tid: " + tidString;
+    }, 1000);
+
+    // "Parker nu" funktion - bruger browserens RTC til at finde tid og runde op
+    function parkerNu() {
+        let nu = new Date();
+        let h = nu.getHours();
+        let m = nu.getMinutes();
+
+        // Danske regler: Rund op til nærmeste kvarter
+        // Vi lægger 1 minut til for at sikre, at vi altid runder OP (f.eks. 14:15 bliver til 14:30)
+        let afrundetMinutter = Math.ceil((m + 1) / 15) * 15;
+        
+        if (afrundetMinutter >= 60) {
+            h = (h + 1) % 24;
+            afrundetMinutter = 0;
+        }
+
+        let nyTid = (h < 10 ? "0" : "") + h + ":" + (afrundetMinutter < 10 ? "0" : "") + afrundetMinutter;
+        
+        // Opdater input feltet så brugeren kan se hvad der blev sendt
+        document.getElementById("timeInput").value = nyTid;
+        
+        // Send beskeden med det samme
+        let message = new Paho.MQTT.Message(nyTid);
+        message.destinationName = "AU_AMS_PSKIVE/pskive/set_time";
+        client.send(message);
+        alert("Automatisk parkering indstillet til: " + nyTid);
+    }
+
+    // --- MQTT STANDARD FUNKTIONER ---
 
     function onConnect() {
         document.getElementById("status").innerText = "Forbundet";
         document.getElementById("status").style.color = "green";
-        console.log("Forbundet til HiveMQ");
     }
 
     function onFailure(message) {
         document.getElementById("status").innerText = "Fejl";
-        console.error("Forbindelse fejlede: " + message.errorMessage);
     }
 
     function onConnectionLost(responseObject) {
         if (responseObject.errorCode !== 0) {
             document.getElementById("status").innerText = "Afbrudt";
             document.getElementById("status").style.color = "red";
-            console.log("Forbindelse tabt: " + responseObject.errorMessage);
         }
     }
 
@@ -103,16 +149,10 @@
         let parts = timeInput.split(":");
         let h = parseInt(parts[0]);
         let m = parseInt(parts[1]);
-
         m += 15;
-        if (m >= 60) {
-            h = (h + 1) % 24;
-            m -= 60;
-        }
-
+        if (m >= 60) { h = (h + 1) % 24; m -= 60; }
         let nyTid = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
         document.getElementById("timeInput").value = nyTid;
-        
         let message = new Paho.MQTT.Message(nyTid);
         message.destinationName = "AU_AMS_PSKIVE/pskive/set_time";
         client.send(message);
@@ -123,16 +163,10 @@
         let parts = timeInput.split(":");
         let h = parseInt(parts[0]);
         let m = parseInt(parts[1]);
-
         m -= 15;
-        if (m < 0) {
-            h = (h - 1 + 24) % 24;
-            m += 60;
-        }
-
+        if (m < 0) { h = (h - 1 + 24) % 24; m += 60; }
         let nyTid = (h < 10 ? "0" : "") + h + ":" + (m < 10 ? "0" : "") + m;
         document.getElementById("timeInput").value = nyTid;
-        
         let message = new Paho.MQTT.Message(nyTid);
         message.destinationName = "AU_AMS_PSKIVE/pskive/set_time";
         client.send(message);
