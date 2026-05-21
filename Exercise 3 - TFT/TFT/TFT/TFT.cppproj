@@ -152,6 +152,12 @@
     <Compile Include="TFTtest.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="UARTdriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UARTdriver.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

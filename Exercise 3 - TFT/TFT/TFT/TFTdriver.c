@@ -237,10 +237,6 @@ uint16_t Height, uint8_t Red, uint8_t Green, uint8_t Blue)
 		 TFTWriteData(color);
 	 }
 	 
-	 
-	 
-	 
-	 
 }
 
 void DrawSegment(uint16_t x, uint16_t y, uint16_t w, uint16_t h)
@@ -316,9 +312,9 @@ void DrawTime(char* time)
 	DrawDigit(x + 3*spacing + 20, y, time[4] - '0');
 }
 
-void IncrementTime()
+void IncrementTime(uint16_t minutes_change)
 {
-	minutes += 15;
+	minutes += minutes_change;
 
 	if (minutes >= 60)
 	{

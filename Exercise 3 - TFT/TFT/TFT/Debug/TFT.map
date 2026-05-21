@@ -26,24 +26,19 @@ Discarded input sections
                 0x00000000       0x16 TFTdriver.o
  .text.TFTWritePixel
                 0x00000000       0x22 TFTdriver.o
- .text.IncrementTime
-                0x00000000       0x4a TFTdriver.o
- .text.FormatTime
-                0x00000000       0x48 TFTdriver.o
- .data.minutes  0x00000000        0x2 TFTdriver.o
- .data.hours    0x00000000        0x2 TFTdriver.o
  .text          0x00000000        0x0 TFTtest.o
  .data          0x00000000        0x0 TFTtest.o
  .bss           0x00000000        0x0 TFTtest.o
- .text.DrawDannebrog
-                0x00000000       0x88 TFTtest.o
+ .text          0x00000000        0x0 UARTdriver.o
+ .data          0x00000000        0x0 UARTdriver.o
+ .bss           0x00000000        0x0 UARTdriver.o
+ .text.uart0_send_string
+                0x00000000       0x1a UARTdriver.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
  .text.libgcc.mul
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
- .text.libgcc.div
-                0x00000000       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
  .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
  .text.libgcc.prologue
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
@@ -104,8 +99,6 @@ Discarded input sections
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
  .text.libgcc.mul
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
- .text.libgcc.div
-                0x00000000       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
  .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
  .text.libgcc.prologue
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
@@ -134,6 +127,7 @@ Address of section .data set to 0x800200
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega2560/avr6/crtatmega2560.o
 LOAD TFTdriver.o
 LOAD TFTtest.o
+LOAD UARTdriver.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr6\libm.a
 END GROUP
@@ -245,7 +239,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x620
+.text           0x00000000      0x7a2
  *(.vectors)
  .vectors       0x00000000       0xe4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega2560/avr6/crtatmega2560.o
                 0x00000000                __vector_default
@@ -398,16 +392,47 @@ END GROUP
  .text.DrawTime
                 0x00000548       0x8e TFTdriver.o
                 0x00000548                DrawTime
- .text.main     0x000005d6       0x28 TFTtest.o
-                0x000005d6                main
+ .text.IncrementTime
+                0x000005d6       0x4c TFTdriver.o
+                0x000005d6                IncrementTime
+ .text.FormatTime
+                0x00000622       0x42 TFTdriver.o
+                0x00000622                FormatTime
+ .text.main     0x00000664       0x30 TFTtest.o
+                0x00000664                main
+ .text.uart0_init
+                0x00000694       0x18 UARTdriver.o
+                0x00000694                uart0_init
+ .text.uart0_send_char
+                0x000006ac        0xe UARTdriver.o
+                0x000006ac                uart0_send_char
+ .text.uart1_init
+                0x000006ba       0x18 UARTdriver.o
+                0x000006ba                uart1_init
+ .text.uart1_available
+                0x000006d2        0x8 UARTdriver.o
+                0x000006d2                uart1_available
+ .text.uart1_read_char
+                0x000006da        0xc UARTdriver.o
+                0x000006da                uart1_read_char
+ .text.HandleUARTCommand
+                0x000006e6       0x4c UARTdriver.o
+                0x000006e6                HandleUARTCommand
+ .text.libgcc.div
+                0x00000732       0x26 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_divmodhi4.o)
+                0x00000732                _div
+                0x00000732                __divmodhi4
  .text.libgcc.mul
-                0x000005fe       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_umulhisi3.o)
-                0x000005fe                __umulhisi3
-                0x0000061c                . = ALIGN (0x2)
+                0x00000758       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_umulhisi3.o)
+                0x00000758                __umulhisi3
+ .text.libgcc.div
+                0x00000776       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_udivmodhi4.o)
+                0x00000776                __udivmodhi4
+                0x0000079e                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000061c        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
-                0x0000061c                _exit
-                0x0000061c                exit
+ .fini9         0x0000079e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
+                0x0000079e                _exit
+                0x0000079e                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -426,39 +451,41 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000061c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
+ .fini0         0x0000079e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr6\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000620                _etext = .
+                0x000007a2                _etext = .
 
-.data           0x00800200       0x92 load address 0x00000620
+.data           0x00800200       0x90 load address 0x000007a2
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
+ .data.minutes  0x00800200        0x2 TFTdriver.o
+                0x00800200                minutes
+ .data.hours    0x00800202        0x2 TFTdriver.o
+                0x00800202                hours
  *(.gnu.linkonce.d*)
  *(.rodata)
- .rodata        0x00800200       0x8c TFTdriver.o
+ .rodata        0x00800204       0x8c TFTdriver.o
  *(.rodata*)
- .rodata.str1.1
-                0x0080028c        0x6 TFTtest.o
  *(.gnu.linkonce.r*)
-                0x00800292                . = ALIGN (0x2)
-                0x00800292                _edata = .
-                0x00800292                PROVIDE (__data_end, .)
+                0x00800290                . = ALIGN (0x2)
+                0x00800290                _edata = .
+                0x00800290                PROVIDE (__data_end, .)
 
-.bss            0x00800292        0x0
+.bss            0x00800290        0x0
                 [!provide]                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
-                0x00000620                __data_load_start = LOADADDR (.data)
-                0x000006b2                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000007a2                __data_load_start = LOADADDR (.data)
+                0x00000832                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800292        0x0
+.noinit         0x00800290        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800292                _end = .
+                0x00800290                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -503,6 +530,7 @@ END GROUP
  .comment       0x00000000       0x30 TFTdriver.o
                                  0x31 (size before relaxing)
  .comment       0x00000030       0x31 TFTtest.o
+ .comment       0x00000030       0x31 UARTdriver.o
 
 .note.gnu.avr.deviceinfo
                 0x00000000       0x40
@@ -524,51 +552,60 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xd8
+.debug_aranges  0x00000000      0x120
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0xb0 TFTdriver.o
  .debug_aranges
-                0x000000b0       0x28 TFTtest.o
+                0x000000b0       0x20 TFTtest.o
+ .debug_aranges
+                0x000000d0       0x50 UARTdriver.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x196f
+.debug_info     0x00000000     0x1b4c
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xbbc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_info    0x00000bbc      0xb20 TFTdriver.o
- .debug_info    0x000016dc      0x293 TFTtest.o
+ .debug_info    0x00000bbc      0xb35 TFTdriver.o
+ .debug_info    0x000016f1      0x1e7 TFTtest.o
+ .debug_info    0x000018d8      0x274 UARTdriver.o
 
-.debug_abbrev   0x00000000      0xe28
+.debug_abbrev   0x00000000      0xf73
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0xb1a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_abbrev  0x00000b1a      0x231 TFTdriver.o
- .debug_abbrev  0x00000d4b       0xdd TFTtest.o
+ .debug_abbrev  0x00000b1a      0x21b TFTdriver.o
+ .debug_abbrev  0x00000d35       0xd0 TFTtest.o
+ .debug_abbrev  0x00000e05      0x16e UARTdriver.o
 
-.debug_line     0x00000000      0x786
+.debug_line     0x00000000      0x929
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x1fa C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega2560/avr6/crtatmega2560.o
  .debug_line    0x000001fa      0x4fb TFTdriver.o
  .debug_line    0x000006f5       0x91 TFTtest.o
+ .debug_line    0x00000786      0x1a3 UARTdriver.o
 
-.debug_frame    0x00000000      0x294
+.debug_frame    0x00000000      0x314
  *(.debug_frame)
  .debug_frame   0x00000000      0x240 TFTdriver.o
- .debug_frame   0x00000240       0x54 TFTtest.o
+ .debug_frame   0x00000240       0x34 TFTtest.o
+ .debug_frame   0x00000274       0xa0 UARTdriver.o
 
-.debug_str      0x00000000      0x744
+.debug_str      0x00000000      0x7b2
  *(.debug_str)
  .debug_str     0x00000000      0x3e6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega2560/avr6/crtatmega2560.o
- .debug_str     0x000003e6      0x33c TFTdriver.o
-                                0x375 (size before relaxing)
- .debug_str     0x00000722       0x22 TFTtest.o
-                                0x1be (size before relaxing)
+ .debug_str     0x000003e6      0x333 TFTdriver.o
+                                0x36c (size before relaxing)
+ .debug_str     0x00000719       0x75 TFTtest.o
+                                0x1f5 (size before relaxing)
+ .debug_str     0x0000078e       0x24 UARTdriver.o
+                                0x203 (size before relaxing)
 
-.debug_loc      0x00000000      0xaaf
+.debug_loc      0x00000000      0xb8b
  *(.debug_loc)
- .debug_loc     0x00000000      0xa2b TFTdriver.o
- .debug_loc     0x00000a2b       0x84 TFTtest.o
+ .debug_loc     0x00000000      0xa51 TFTdriver.o
+ .debug_loc     0x00000a51       0x48 TFTtest.o
+ .debug_loc     0x00000a99       0xf2 UARTdriver.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -588,10 +625,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xb8
+.debug_ranges   0x00000000       0xf0
  *(.debug_ranges)
  .debug_ranges  0x00000000       0xa0 TFTdriver.o
- .debug_ranges  0x000000a0       0x18 TFTtest.o
+ .debug_ranges  0x000000a0       0x10 TFTtest.o
+ .debug_ranges  0x000000b0       0x40 UARTdriver.o
 
 .debug_macro
  *(.debug_macro)
