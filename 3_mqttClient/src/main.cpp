@@ -26,8 +26,8 @@ const uint8_t ledPin = 2;
 
 unsigned long lastMillis = 0;
 
-#define STILL_TIME_MS  5000
-#define CHECK_INTERVAL 1000
+#define STILL_TIME_MS  15000
+#define CHECK_INTERVAL 3000
 
 unsigned long lastCheck = 0;
 int still_count = 0;

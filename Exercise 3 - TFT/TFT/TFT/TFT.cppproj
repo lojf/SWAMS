@@ -143,25 +143,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ADXdriver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ADXdriver.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="I2Cdriver.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="I2Cdriver.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="TFTdriver.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="TFTdriver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="TFTtest.c">
+    <Compile Include="Main.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UARTdriver.c">

@@ -64,7 +64,7 @@ void uart1_send_string(const char* str)
 // handle uart command
 void HandleUARTCommand(void)
 {
-	// Læs 5 tegn: H H : M M
+	// read the 5 chars from esp
 	char buf[6];
 	for (int i = 0; i < 5; i++)
 	{
@@ -72,18 +72,18 @@ void HandleUARTCommand(void)
 	}
 	buf[5] = '\0';
 
-	// Valider format: buf[2] skal være ':'
+	// validate there is a comma - maybe not so necessary but nice to have
 	if (buf[2] != ':') return;
 
-	// Parse timer og minutter
+	// parse time
 	int h = (buf[0] - '0') * 10 + (buf[1] - '0');
 	int m = (buf[3] - '0') * 10 + (buf[4] - '0');
 
-	// Valider værdier
+	// Validate values, also not needed because it is done on website already, but nice for re-use
 	if (h < 0 || h > 23) return;
 	if (m < 0 || m > 59) return;
 
-	// Sæt og tegn
+	// set the time and use it for drawing the time on the pskive
 	SetTime(h, m);
 
 	char buffer[6];
