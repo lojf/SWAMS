@@ -95,25 +95,25 @@ void loop() {
 
 
     //accelerometer tjek - added af Mickey
-    if (millis() - lastCheck >= CHECK_INTERVAL) { //tjek om der er gået lang nok tid
-        lastCheck = millis();
+    // if (millis() - lastCheck >= CHECK_INTERVAL) { //tjek om der er gået lang nok tid
+    //     lastCheck = millis();
 
-        if (isStill()) {
-            still_count++;
-            Serial.println("Still count: " + String(still_count));
+    //     if (isStill()) {
+    //         still_count++;
+    //         Serial.println("Still count: " + String(still_count));
             
-            if(still_count >= (STILL_TIME_MS / CHECK_INTERVAL) && !time_requested) {
-                mqtt.publish("AU_AMS_PSKIVE/pskive/request_time", "REQUEST");
-                Serial.println("Sendte tidsrequest!");
-                time_requested = true;
-            }
-        } else {
-            still_count = 0; // Reset count hvis der er bevægelse
-            Serial.println("Bevægelse registreret, reset still count.");
-            time_requested = false; // Reset tidsanmodningsflag ved bevægelse
-        }
+    //         if(still_count >= (STILL_TIME_MS / CHECK_INTERVAL) && !time_requested) {
+    //             mqtt.publish("AU_AMS_PSKIVE/pskive/request_time", "REQUEST");
+    //             Serial.println("Sendte tidsrequest!");
+    //             time_requested = true;
+    //         }
+    //     } else {
+    //         still_count = 0; // Reset count hvis der er bevægelse
+    //         Serial.println("Bevægelse registreret, reset still count.");
+    //         time_requested = false; // Reset tidsanmodningsflag ved bevægelse
+    //     }
 
-    }
+    // }
 
 
 

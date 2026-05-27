@@ -175,9 +175,9 @@
     function onMessageArrived(message) {
         console.log("Modtaget: " + message.payloadString);
 
-        if(message.destinationName === "AU_AMS_PSKIVE/pskive/status" && message.payloadString === "REQUEST") {
-            parkerNu(); // Kald parkerNu() når vi modtager en REQUEST
-        }
+        // if(message.destinationName === "AU_AMS_PSKIVE/pskive/status" && message.payloadString === "REQUEST") {
+        //     parkerNu(); // Kald parkerNu() når vi modtager en REQUEST
+        // }
     }
 </script>
 
