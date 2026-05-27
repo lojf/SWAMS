@@ -123,6 +123,8 @@
     function onConnect() {
         document.getElementById("status").innerText = "Forbundet";
         document.getElementById("status").style.color = "green";
+
+        client.subscribe("AU_AMS_PSKIVE/pskive/request_time");
     }
 
     function onFailure(message) {

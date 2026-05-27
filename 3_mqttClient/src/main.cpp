@@ -72,7 +72,7 @@ void setup() {
     }
     Serial.println("\nSUCCESS: FORBUNDET TIL SKYEN!");
 
-    mqtt.subscribe("AU_AMS_PSKIVE/#");
+    mqtt.subscribe("AU_AMS_PSKIVE/pskive/set_time");
     Serial.println("Lytter på: " + String(PSKIVE_SET_TIME_TOPIC));
 }
 
@@ -87,7 +87,7 @@ void loop() {
             Serial.print(".");
         }
         // Husk at subscribe igen efter genforbindelse!
-        mqtt.subscribe("AU_AMS_PSKIVE/#");
+        mqtt.subscribe("AU_AMS_PSKIVE/pskive/set_time");
         Serial.println("\nGenforbundet!");
     }
     
