@@ -14,8 +14,9 @@ void uart0_send_string(const char* str);
 void uart1_init(void);
 uint8_t uart1_available(void);
 char uart1_read_char(void);
-
+void uart1_send_char(char);
+void uart1_send_string(const char* str);
 //handle the time updating command
-void HandleUARTCommand(char c);
+void HandleUARTCommand(void);
 
 

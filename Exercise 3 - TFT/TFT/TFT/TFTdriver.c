@@ -312,6 +312,8 @@ void DrawTime(char* time)
 	DrawDigit(x + 3*spacing + 20, y, time[4] - '0');
 }
 
+
+//not used anymore - deprecated
 void IncrementTime(uint16_t minutes_change)
 {
 	minutes += minutes_change;
@@ -326,6 +328,13 @@ void IncrementTime(uint16_t minutes_change)
 	{
 		hours = 0;
 	}
+}
+
+
+void SetTime(int h, int m)
+{
+	hours = h;
+	minutes = m;	
 }
 
 void FormatTime(char* buffer)

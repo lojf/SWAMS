@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+
 // --- UART0 - debug til PC ---
 void uart0_init(void)
 {
@@ -47,16 +48,43 @@ char uart1_read_char(void)
 	return UDR1;
 }
 
-// handle uart command
-void HandleUARTCommand(char c)
+void uart1_send_char(char c)
 {
-	switch (c)
-	{
-		case '1': IncrementTime(15); break;
-		case '2': IncrementTime(30); break;
-		case '3': IncrementTime(60); break;
-		default:  return;
+	while (!(UCSR1A & (1 << UDRE1)));
+	UDR1 = c;
+}
+
+void uart1_send_string(const char* str)
+{
+	while(*str){
+		uart1_send_char(*str);
+		str++;
 	}
+}
+// handle uart command
+void HandleUARTCommand(void)
+{
+	// Læs 5 tegn: H H : M M
+	char buf[6];
+	for (int i = 0; i < 5; i++)
+	{
+		buf[i] = uart1_read_char();
+	}
+	buf[5] = '\0';
+
+	// Valider format: buf[2] skal være ':'
+	if (buf[2] != ':') return;
+
+	// Parse timer og minutter
+	int h = (buf[0] - '0') * 10 + (buf[1] - '0');
+	int m = (buf[3] - '0') * 10 + (buf[4] - '0');
+
+	// Valider værdier
+	if (h < 0 || h > 23) return;
+	if (m < 0 || m > 59) return;
+
+	// Sæt og tegn
+	SetTime(h, m);
 
 	char buffer[6];
 	FormatTime(buffer);
