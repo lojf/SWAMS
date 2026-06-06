@@ -64,15 +64,22 @@ void uart1_send_string(const char* str)
 // handle uart command
 void HandleUARTCommand(void)
 {
-	// read the 5 chars from esp
-	char buf[6];
-	for (int i = 0; i < 5; i++)
-	{
-		buf[i] = uart1_read_char();
-	}
-	buf[5] = '\0';
+	 char buf[6];
+	 char c;
 
-	// validate there is a comma - maybe not so necessary but nice to have
+	 // Skip \r, \n and non-numbers. (because println() works best)
+	 do {
+		 c = uart1_read_char();
+	 } while (c < '0' || c > '9');
+
+	 buf[0] = c;
+	 for (int i = 1; i < 5; i++)
+	 {
+		 buf[i] = uart1_read_char();
+	 }
+	 buf[5] = '\0';
+
+	// validate there is a comma, maybe not so necessary but nice to have
 	if (buf[2] != ':') return;
 
 	// parse time
@@ -89,4 +96,5 @@ void HandleUARTCommand(void)
 	char buffer[6];
 	FormatTime(buffer);
 	DrawTime(buffer);
+	
 }

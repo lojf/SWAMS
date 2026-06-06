@@ -40,7 +40,7 @@ void msgRecv(String &topic, String &payload) {
     Serial.println("Payload: " + payload);
 
     if (topic == PSKIVE_SET_TIME_TOPIC) {
-        Serial2.print(payload);
+        Serial2.println(payload);
         time_requested = false; // Reset flag efter at have sendt tidsanmodning
     }
 }
@@ -106,6 +106,7 @@ void loop() {
                 mqtt.publish("AU_AMS_PSKIVE/pskive/request_time", "REQUEST");
                 Serial.println("Sendte tidsrequest!");
                 time_requested = true;
+                still_count = 0; // Reset count efter at have sendt tidsanmodning
             }
         } else {
             still_count = 0; // Reset count hvis der er bevægelse
