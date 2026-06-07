@@ -5,8 +5,8 @@
 #include "accelerometer.h"
 
 // 1. WiFi indstillinger
-const char* ssid = "Yeet";
-const char* password = "Tissemand";
+const char* ssid = "Iphone 15";
+const char* password = "adgangskode123";
 
 // 2. HiveMQ Cloud
 #define mqttServer "e485e36576474f2980cbef4972a4cd36.s1.eu.hivemq.cloud"
